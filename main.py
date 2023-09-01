@@ -4,13 +4,13 @@ app = Flask(__name__)
 
 
 @app.route("/")
-def hello():
-
-   return "Hello World!"
+def home():
+   return render_template("home.html")
+   # add start button with link to "\game"
 
 @app.route("/game")
 def play():
-    return render_template("home.html")
+    return render_template("game.html")
 
 
 if __name__ == "__main__":
