@@ -6,9 +6,14 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-
-    <button id="hit-button">Hit</button>
-    <button id="stand-button">Stand</button>
+    <div id="dealerArea">
+        
+    </div>
+    <div id="playButtons">
+        <button id="hit-button">Hit</button>
+        <button id="stand-button">Stand</button>
+    </div>
+    
     <div id="playingArea">
         <!-- <div class="parent">
         <img class="image1" src= "" />
@@ -339,7 +344,7 @@
 
 
         document.getElementById("hit-button").addEventListener('click', function () {
-            displayCard()
+            displayCard("playingArea")
         });
 
         document.getElementById("stand-button").addEventListener('click', function () {
@@ -360,25 +365,34 @@
         //     document.getElementById("playingArea").appendChild(newCard);
         // }
 
-        function displayCard() {
+        function displayCard(area) {
             current_card = card_list[index]
             index += 1
             const newCard = document.createElement("img");
             newCard.src = cardIdToCard[current_card].cardImagePath
             newCard.width = 200
-            document.getElementById("playingArea").appendChild(newCard);
+            document.getElementById(area).appendChild(newCard);
             return current_card
         }
 
         async function initializeGame() {
             playerValue = 0;
+            document.getElementById("dealerArea").innerHTML = "";
             document.getElementById("playingArea").innerHTML = "";
             index = 0
             card_list = shuffle(card_list)
             for (let i = 0; i < 2; i++) {
                 await new Promise(r => setTimeout(r, 800))
-                displayCard()
+                displayCard("dealerArea")
+                
             }
+            for (let i = 0; i < 2; i++) {
+                await new Promise(r => setTimeout(r, 800))
+                displayCard("playingArea")
+                
+            }
+
+            
         }
 
         initializeGame();
