@@ -24,6 +24,7 @@
 
     <script>
         var playerValue = 0;
+        var dealerValue = 0;
         var cardIdList = [];
         var cardIdToCard = {
             1: {
@@ -364,6 +365,8 @@
         //     newCard.width = 200
         //     document.getElementById("playingArea").appendChild(newCard);
         // }
+        
+       
 
         function displayCard(area) {
             current_card = card_list[index]
@@ -372,11 +375,19 @@
             newCard.src = cardIdToCard[current_card].cardImagePath
             newCard.width = 200
             document.getElementById(area).appendChild(newCard);
+            if (area == "dealerArea"){
+                dealerValue += current_card.cardValue
+            }
+            if (area == "playerArea"){
+                playerValue += current_card.cardValue
+            }
+
             return current_card
         }
 
         async function initializeGame() {
             playerValue = 0;
+            dealerValue = 0;
             document.getElementById("dealerArea").innerHTML = "";
             document.getElementById("playingArea").innerHTML = "";
             index = 0
@@ -391,12 +402,18 @@
                 displayCard("playingArea")
                 
             }
-
+        
+            function playGame() {
+                
+            }
             
         }
 
         initializeGame();
-
+        //can we make it so that the buttons appear after the game is initialized?
+        // Shuffle broken (repeat cards)
+        
+        playGame();
 
     </script>
 </body>
