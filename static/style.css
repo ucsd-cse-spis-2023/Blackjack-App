@@ -139,3 +139,7 @@ h2{
 .no-display{
     display: none !important;
 }
+
+#firstCard{
+    height: 290px;
+}
