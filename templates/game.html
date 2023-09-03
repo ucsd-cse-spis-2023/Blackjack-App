@@ -5,20 +5,20 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
+
 <body>
     <div id="dealerArea">
-        
+
     </div>
-    <div id="playButtons">
+
+    <div id="playButtons" class="hidden">
+
         <button id="hit-button">Hit</button>
         <button id="stand-button">Stand</button>
+        <button id="restart-button" class="no-display">Restart</button>
     </div>
-    
+
     <div id="playingArea">
-        <!-- <div class="parent">
-        <img class="image1" src= "" />
-        <img class="image2" src="/uploads/media/default/0001/01/25acddb3da54207bc6beb5838f65f022feaa81d7.jpeg" />
-    </div> -->
 
     </div>
 
@@ -26,6 +26,9 @@
         var playerValue = 0;
         var dealerValue = 0;
         var cardIdList = [];
+        var gameOver = false;
+        var dealerAceCount = 0;
+        var playerAceCount = 0;
         var cardIdToCard = {
             1: {
                 cardName: "2 of Clubs",
@@ -168,7 +171,7 @@
             24: {
                 cardName: "7 of Spades",
                 cardValue: 7,
-                cardImagePath: "/static/2_of_spades.png"
+                cardImagePath: "/static/7_of_spades.png"
             },
 
             25: {
@@ -341,6 +344,8 @@
         }
         var card_list = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52]
         var index = 0
+        var dealerBlackJack = false
+        var playerBlackJack = false
 
 
 
@@ -349,7 +354,12 @@
         });
 
         document.getElementById("stand-button").addEventListener('click', function () {
+            dealer()
         });
+        document.getElementById("restart-button").addEventListener('click', function () {
+            initializeGame()
+        });
+
 
         function shuffle(array) {
             for (let i = array.length - 1; i > 0; i--) {
@@ -358,62 +368,178 @@
             }
             return array
         }
-
-        // function dealer_card(){
-        //     const dealer_card = document.createElement("img");
-        //     const dealer_card = back_of_card.jpg
-        //     newCard.width = 200
-        //     document.getElementById("playingArea").appendChild(newCard);
-        // }
-        
-       
-
-        function displayCard(area) {
+        function displayCard(area, firstCard) {
+            console.log('hit')
+            if (gameOver) {
+                return
+            }
             current_card = card_list[index]
             index += 1
             const newCard = document.createElement("img");
             newCard.src = cardIdToCard[current_card].cardImagePath
+            newCard.setAttribute("data-src", "/static/back_of_card.png")
             newCard.width = 200
             document.getElementById(area).appendChild(newCard);
-            if (area == "dealerArea"){
-                dealerValue += current_card.cardValue
+            if (area == "dealerArea") {
+                dealerValue += cardIdToCard[current_card].cardValue
+                console.log(cardIdToCard[current_card].cardValue)
+                if (cardIdToCard[current_card].cardValue === 11) {
+                    dealerAceCount += 1
+                }
+                if (dealerValue > 21) {
+                    if (dealerAceCount > 0) {
+                        dealerValue -= 10
+                        dealerAceCount -= 1
+                    }
+                    else {
+                        stopGame()
+                    }
+                }
             }
-            if (area == "playerArea"){
-                playerValue += current_card.cardValue
-            }
+            if (area == "playingArea") {
+                playerValue += cardIdToCard[current_card].cardValue
+                console.log(cardIdToCard[current_card].cardValue)
+                if (cardIdToCard[current_card].cardValue === 11) {
+                    playerAceCount += 1
+                }
+                if (playerValue > 21) {
+                    if (playerAceCount > 0) {
+                        playerValue -= 10
+                        playerAceCount -= 1
 
+                    }
+                    else {
+                        stopGame()
+                    }
+                }
+                if (playerValue === 21) {
+                    dealer()
+                }
+            }
+            if (firstCard) {
+                newCard.id = "firstCard"
+                flip()
+            }
             return current_card
         }
 
+        async function stopGame() {
+            gameOver = true;
+            document.getElementById("hit-button").disabled = true;
+            document.getElementById("stand-button").disabled = true;
+            await new Promise(r => setTimeout(r, 1000))
+            document.getElementById("restart-button").classList.remove("no-display");
+            if (playerBlackJack && dealerBlackJack) {
+                alert("Player and dealer blackjack! It's a tie!")
+                return;
+            }
+
+            if (playerBlackJack && !dealerBlackJack) {
+                alert("Black Jack! You Win!")
+                return;
+            }
+
+            if (dealerBlackJack && !playerBlackJack) {
+                alert("Dealer has BlackJack. You lose!!!")
+                return;
+            }
+
+            if (playerValue > 21) {
+                flip()
+                console.log('hitttttt')
+                await new Promise(r => setTimeout(r, 1000))
+                alert("YOU BUST!!!!!! YOU LOSE!!")
+                return;
+            }
+
+            if (dealerValue > 21) {
+                alert("Dealer Bust! YOU WIN!!!")
+                return;
+            }
+
+            if (playerValue > dealerValue) {
+                alert("YOU WINNNN!!!")
+                return;
+            }
+
+            if (dealerValue === playerValue) {
+                alert("YOU TIE!!!!")
+                return;
+            }
+
+            if (dealerValue > playerValue) {
+                alert("YOU LOSEEEE!")
+                return;
+            }
+
+        }
+
+
         async function initializeGame() {
+            document.getElementById("restart-button").classList.add("no-display");
             playerValue = 0;
             dealerValue = 0;
+            dealerAceCount = 0;
+            playerAceCount = 0;
+            gameOver = false;
+            playerBlackJack = false
+            dealerBlackJack = false
             document.getElementById("dealerArea").innerHTML = "";
             document.getElementById("playingArea").innerHTML = "";
             index = 0
             card_list = shuffle(card_list)
             for (let i = 0; i < 2; i++) {
                 await new Promise(r => setTimeout(r, 800))
-                displayCard("dealerArea")
-                
+                displayCard("dealerArea", i === 0)
             }
             for (let i = 0; i < 2; i++) {
                 await new Promise(r => setTimeout(r, 800))
                 displayCard("playingArea")
-                
             }
-        
-            function playGame() {
-                
+            if (dealerValue === 21) {
+                flip()
+                await new Promise(r => setTimeout(r, 800))
+                dealerBlackJack = true
+                stopGame()
             }
-            
+            if (playerValue === 21) {
+                playerBlackJack = true
+                stopGame()
+            }
+
+            document.getElementById("hit-button").disabled = false;
+            document.getElementById("stand-button").disabled = false;
+
+
+            setTimeout(function () {
+                document.getElementById("playButtons").classList.remove("hidden");
+            }, 800)
+            console.log(playerValue)
+            console.log(dealerValue)
+
+        }
+        function flip() {
+            var original_src = document.getElementById("firstCard").src
+            document.getElementById("firstCard").src = document.getElementById("firstCard").getAttribute("data-src")
+            document.getElementById("firstCard").setAttribute("data-src", original_src)
+        }
+        async function dealer() {
+            document.getElementById("hit-button").disabled = true;
+            document.getElementById("stand-button").disabled = true;
+            flip()
+            await new Promise(r => setTimeout(r, 1000))
+            while (dealerValue < 17) {
+                displayCard("dealerArea", false)
+                await new Promise(r => setTimeout(r, 1000))
+            }
+            if (dealerValue <= 21) {
+                stopGame()
+            }
         }
 
-        initializeGame();
-        //can we make it so that the buttons appear after the game is initialized?
-        // Shuffle broken (repeat cards)
-        
-        playGame();
+        initializeGame()
+        //fix back of card (size)
+
 
     </script>
 </body>
