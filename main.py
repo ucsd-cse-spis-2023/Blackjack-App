@@ -1,4 +1,8 @@
 from flask import Flask, render_template
+# import deap
+
+# deap.do_stuff()
+# deap_model = woohoo!
 
 app = Flask(__name__)
 
@@ -6,7 +10,6 @@ app = Flask(__name__)
 @app.route("/")
 def home():
    return render_template("home.html")
-   # add start button with link to "\game"
 
 @app.route("/game")
 def play():
