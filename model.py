@@ -1,10 +1,16 @@
+#import libraries
 import deap
+import math
 import random
 
+#initialize variables
 playerTotal = 0
 dealerCard = 0
 scenarioIDToScenarioNoAce = dict()
 scenarioIDToScenarioWithAce = dict()
+scenarioList = []
+
+#create scenario set-up
 scenarioIDToScenarioNoAce = {
     0: {
         playerTotal: 4,
@@ -688,327 +694,334 @@ scenarioIDToScenarioNoAce = {
     }
 }
 scenarioIDToScenarioWithAce = {
-    0: {
+    170: {
         playerTotal: 13, 
         dealerCard: 2
     },
-    1: {
+    171: {
         playerTotal: 13,
         dealerCard: 3
     },
-    2: {
+    172: {
         playerTotal: 13,
         dealerCard: 4
     },
-    3: {
+    173: {
         playerTotal: 13,
         dealerCard: 5
     },
-    4: {
+    174: {
         playerTotal: 13,
         dealerCard: 6
     },
-    5: {
+    175: {
         playerTotal: 13,
         dealerCard: 7
     },
-    6: {
+    176: {
         playerTotal: 13,
         dealerCard: 8
     },
-    7: {
+    177: {
         playerTotal: 13,
         dealerCard: 9
     },
-    8: {
+    178: {
         playerTotal: 13,
         dealerCard: 10
     },
-    9: {
+    179: {
         playerTotal: 13,
         dealerCard: 11
     },
-    10: {
+    180: {
         playerTotal: 14,
         dealerCard: 2
     },
-    11: {
+    181: {
         playerTotal: 14,
         dealerCard: 3
     },
-    12: {
+    182: {
         playerTotal: 14,
         dealerCard: 4
     },
-    13: {
+    183: {
         playerTotal: 14,
         dealerCard: 5
     },
-    14: {
+    184: {
         playerTotal: 14,
         dealerCard: 6
     },
-    15: {
+    185: {
         playerTotal: 14,
         dealerCard: 7
     },
-    16: {
+    186: {
         playerTotal: 14,
         dealerCard: 8
     },
-    17: {
+    187: {
         playerTotal: 14,
         dealerCard: 9
     },
-    18: {
+    188: {
         playerTotal: 14,
         dealerCard: 10
     },
-    19: {
+    189: {
         playerTotal: 14,
         dealerCard: 11
     },
-    20: {
+    190: {
         playerTotal: 15,
         dealerCard: 2
     },
-    21: {
+    191: {
         playerTotal: 15,
         dealerCard: 3
     },
-    22: {
+    192: {
         playerTotal: 15,
         dealerCard: 4
     },
-    23: {
+    193: {
         playerTotal: 15,
         dealerCard: 5
     },
-    24: {
+    194: {
         playerTotal: 15,
         dealerCard: 6
     },
-    25: {
+    195: {
         playerTotal: 15,
         dealerCard: 7
     },
-    26: {
+    196: {
         playerTotal: 15,
         dealerCard: 8
     },
-    27: {
+    197: {
         playerTotal: 15,
         dealerCard: 9
     },
-    28: {
+    198: {
         playerTotal: 15,
         dealerCard: 10
     },
-    29: {
+    199: {
         playerTotal: 15,
         dealerCard: 11
     },
-    30: {
+    200: {
         playerTotal: 16,
         dealerCard: 2
     },
-    31: {
+    201: {
         playerTotal: 16,
         dealerCard: 3
     },
-    32: {
+    202: {
         playerTotal: 16,
         dealerCard: 4
     },
-    33: {
+    203: {
         playerTotal: 16,
         dealerCard: 5
     },
-    34: {
+    204: {
         playerTotal: 16,
         dealerCard: 6
     },
-    35: {
+    205: {
         playerTotal: 16,
         dealerCard: 7
     },
-    36: {
+    206: {
         playerTotal: 16,
         dealerCard: 8
     },
-    37: {
+    207: {
         playerTotal: 16,
         dealerCard: 9
     },
-    38: {
+    208: {
         playerTotal: 16,
         dealerCard: 10
     },
-    39: {
+    209: {
         playerTotal: 16,
         dealerCard: 11
     },
-    40: {
+    210: {
         playerTotal: 17,
         dealerCard: 2
     },
-    41: {
+    211: {
         playerTotal: 17,
         dealerCard: 3
     },
-    42: {
+    212: {
         playerTotal: 17,
         dealerCard: 4
     },
-    43: {
+    213: {
         playerTotal: 17,
         dealerCard: 5
     },
-    44: {
+    214: {
         playerTotal: 17,
         dealerCard: 6
     },
-    45: {
+    215: {
         playerTotal: 17,
         dealerCard: 7
     },
-    46: {
+    216: {
         playerTotal: 17,
         dealerCard: 8
     },
-    47: {
+    217: {
         playerTotal: 17,
         dealerCard: 9
     },
-    48: {
+    218: {
         playerTotal: 17,
         dealerCard: 10
     },
-    49: {
+    219: {
         playerTotal: 17,
         dealerCard: 11
     },
-    50: {
+    220: {
         playerTotal: 18,
         dealerCard: 2
     },
-    51: {
+    221: {
         playerTotal: 18,
         dealerCard: 3
     },
-    52: {
+    222: {
         playerTotal: 18,
         dealerCard: 4
     },
-    53: {
+    223: {
         playerTotal: 18,
         dealerCard: 5
     },
-    54: {
+    224: {
         playerTotal: 18,
         dealerCard: 6
     },
-    55: {
+    225: {
         playerTotal: 18,
         dealerCard: 7
     },
-    56: {
+    226: {
         playerTotal: 18,
         dealerCard: 8
     },
-    57: {
+    227: {
         playerTotal: 18,
         dealerCard: 9
     },
-    58: {
+    228: {
         playerTotal: 18,
         dealerCard: 10
     },
-    59: {
+    229: {
         playerTotal: 18,
         dealerCard: 11
     },
-    60: {
+    230: {
         playerTotal: 19,
         dealerCard: 2
     },
-    61: {
+    231: {
         playerTotal: 19,
         dealerCard: 3
     },
-    62: {
+    232: {
         playerTotal: 19,
         dealerCard: 4
     },
-    63: {
+    233: {
         playerTotal: 19,
         dealerCard: 5
     },
-    64: {
+    234: {
         playerTotal: 19,
         dealerCard: 6
     },
-    65: {
+    235: {
         playerTotal: 19,
         dealerCard: 7
     },
-    66: {
+    236: {
         playerTotal: 19,
         dealerCard: 8
     },
-    67: {
+    237: {
         playerTotal: 19,
         dealerCard: 9
     },
-    68: {
+    238: {
         playerTotal: 19,
         dealerCard: 10
     },
-    69: {
+    239: {
         playerTotal: 19,
         dealerCard: 11
     },
-    70: {
+    240: {
         playerTotal: 20,
         dealerCard: 2
     },
-    71: {
+    241: {
         playerTotal: 20,
         dealerCard: 3
     },
-    72: {
+    242: {
         playerTotal: 20,
         dealerCard: 4
     },
-    73: {
+    243: {
         playerTotal: 20,
         dealerCard: 5
     },
-    74: {
+    244: {
         playerTotal: 20,
         dealerCard: 6
     },
-    75: {
+    245: {
         playerTotal: 20,
         dealerCard: 7
     },
-    76: {
+    246: {
         playerTotal: 20,
         dealerCard: 8
     },
-    77: {
+    247: {
         playerTotal: 20,
         dealerCard: 9
     },
-    78: {
+    248: {
         playerTotal: 20,
         dealerCard: 10
     },
-    79: {
+    249: {
         playerTotal: 20,
         dealerCard: 11
     }
 }
+#create scenarioList
+for i in range (249):
+    scenarioList.append(random.randint(0,1))
+
+def playGame():
+    pass
+
 
 def fitnessFunction(individual):
     choice = individual[153]
