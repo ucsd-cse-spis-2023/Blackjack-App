@@ -347,8 +347,6 @@
         var dealerBlackJack = false
         var playerBlackJack = false
 
-
-
         document.getElementById("hit-button").addEventListener('click', function () {
             displayCard("playingArea")
         });
@@ -360,7 +358,6 @@
             initializeGame()
         });
 
-
         function shuffle(array) {
             for (let i = array.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
@@ -369,7 +366,6 @@
             return array
         }
         function displayCard(area, firstCard) {
-            console.log('hit')
             if (gameOver) {
                 return
             }
@@ -382,7 +378,6 @@
             document.getElementById(area).appendChild(newCard);
             if (area == "dealerArea") {
                 dealerValue += cardIdToCard[current_card].cardValue
-                console.log(cardIdToCard[current_card].cardValue)
                 if (cardIdToCard[current_card].cardValue === 11) {
                     dealerAceCount += 1
                 }
@@ -398,7 +393,6 @@
             }
             if (area == "playingArea") {
                 playerValue += cardIdToCard[current_card].cardValue
-                console.log(cardIdToCard[current_card].cardValue)
                 if (cardIdToCard[current_card].cardValue === 11) {
                     playerAceCount += 1
                 }
@@ -422,7 +416,6 @@
             }
             return current_card
         }
-
         async function stopGame() {
             gameOver = true;
             document.getElementById("hit-button").disabled = true;
@@ -446,7 +439,6 @@
 
             if (playerValue > 21) {
                 flip()
-                console.log('hitttttt')
                 await new Promise(r => setTimeout(r, 1000))
                 alert("YOU BUST!!!!!! YOU LOSE!!")
                 return;
@@ -473,8 +465,6 @@
             }
 
         }
-
-
         async function initializeGame() {
             document.getElementById("restart-button").classList.add("no-display");
             playerValue = 0;
@@ -514,8 +504,6 @@
             setTimeout(function () {
                 document.getElementById("playButtons").classList.remove("hidden");
             }, 800)
-            console.log(playerValue)
-            console.log(dealerValue)
 
         }
         function flip() {
