@@ -279,8 +279,8 @@ def get_player_choice(individual, player_hand, dealer_showing_card):
     
 def fitnessFunction(individual):
     fitness_score = 0
-    # Simulate 1000 rounds of blackjack
-    for i in range(20000):
+    # Simulate 2000 rounds of blackjack
+    for i in range(75000):
         deck = get_shuffled_deck()
         player_hand = [deck.pop(), deck.pop()]
         dealer_hand = [deck.pop(), deck.pop()]
@@ -334,16 +334,14 @@ toolbox = base.Toolbox()
 # Attribute generator 
 toolbox.register("attr_bool", random.randint, 0, 1)
 # Structure initializers
-toolbox.register("individual", tools.initRepeat, creator.Individual, 
-    toolbox.attr_bool, 250)
+toolbox.register("individual", tools.initRepeat, creator.Individual, toolbox.attr_bool, 250)
 toolbox.register("population", tools.initRepeat, list, toolbox.individual)
 
 toolbox.register("evaluate", fitnessFunction)
 toolbox.register("mate", tools.cxTwoPoint)
-toolbox.register("mutate", tools.mutFlipBit, indpb=0.05)
 toolbox.register("select", tools.selTournament, tournsize=3)
 
-pop = toolbox.population(n=300)
+pop = toolbox.population(n = 400)
 # Evaluate the entire population
 fitnesses = list(map(toolbox.evaluate, pop))
 for ind, fit in zip(pop, fitnesses):
@@ -353,7 +351,7 @@ for ind, fit in zip(pop, fitnesses):
 #       are crossed
 #
 # MUTPB is the probability for mutating an individual
-CXPB, MUTPB = 0.5, 0.2
+CXPB = 0.5
 
 # Extracting all the fitnesses of 
 fits = [ind.fitness.values[0] for ind in pop]
@@ -362,7 +360,7 @@ fits = [ind.fitness.values[0] for ind in pop]
 g = 0
 
 # Begin the evolution
-while max(fits) < 100 and g < 50:
+while g < 50:
     # A new generation
     g = g + 1
     print("-- Generation %i --" % g)
@@ -378,11 +376,6 @@ while max(fits) < 100 and g < 50:
             toolbox.mate(child1, child2)
             del child1.fitness.values
             del child2.fitness.values
-
-    for mutant in offspring:
-        if random.random() < MUTPB:
-            toolbox.mutate(mutant)
-            del mutant.fitness.values
 
     # Evaluate the individuals with an invalid fitness
     invalid_ind = [ind for ind in offspring if not ind.fitness.valid]
@@ -407,3 +400,10 @@ while max(fits) < 100 and g < 50:
 
 best_ind = tools.selBest(pop, 1)[0]
 print("Best individual is %s, %s" % (best_ind, best_ind.fitness.values))
+
+# why is there's sum(evalOneMax) and ours isn't sum?
+#what is tournsize?
+#what is zip?
+# ind.fitness.values
+# CXPB, MUTPB = 0.5, 0.2
+# print("-- Generation %i --" % g)
