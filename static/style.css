@@ -143,3 +143,20 @@ h2{
 #firstCard{
     height: 290px;
 }
+
+#hint-button{
+    position: fixed;
+    background: none;
+    border: none;
+    right: 20px;
+    bottom: 20px;
+}
+
+#hint-button > img{
+    width: 48px;
+    height: 48px;
+}
+
+#hint-button:hover{
+    cursor: pointer;
+}
