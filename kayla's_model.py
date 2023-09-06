@@ -564,30 +564,30 @@ def playGame(scenarioList):
 
     if player.aceCount == 0:
         print('hit')
-        return getIndex(Game.scenarioIDToScenarioNoAce)
+        return getIndex(Game.scenarioIDToScenarioNoAce, scenarioList)
     else:
         print('hit2')
         return getIndex(Game.scenarioIDToScenarioWithAce)
-    
 
 
-
-
-
-def getIndex(dict):
+def getIndex(dict, list):
     print(player.total)
     print(dealerCard)
     for element in dict: 
         if (player.total == dict[element]["playerTotal"]):
             if (dealerCard == dict[element]["dealerCard"]):
-            if dealerCard == dict[i]["dealerCard"]:
-                print(scenarioList[element])
-                return scenarioList[element]
-                if scenarioList[i] == 1:
-                    playerTotal += giveCard(cards, player, playerTotal, dealerTotal)
-                    if playerAceCount == 0:
-                        return getIndex(dict, playerTotal, dealerCard, scenarioList, playerAceCount, cards)
-                    else:
-                        return getIndex(dict, playerTotal, dealerCard, scenarioList, playerAceCount, cards)
-                elif scenarioList[i] == 0 or playerTotal > 21:
- 
+                if dealerCard == dict[element]["dealerCard"]:
+                    # print(Game.scenarioList[element])
+                    return element
+                    
+def decisions():               
+    if Game.scenarioList[element] == 1:
+        player.total += Game.giveCard(player, Game.cards)
+        if playerAceCount == 0:
+            return getIndex(Game.scenarioIDToScenarioNoAce)
+        else:
+            return getIndex(Game.scenarioIDToScenarioWithAce)
+    elif Game.scenarioList[element] == 0 or playerTotal > 21:
+        ...
+
+# fixed variable stuff but need to find a way to get the element from getIndex and then write all the stop game conditions
