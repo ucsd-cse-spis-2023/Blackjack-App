@@ -332,11 +332,32 @@ document.getElementById("stand-button").addEventListener('click', function () {
 });
 document.getElementById("restart-button").addEventListener('click', function () {
     initializeGame()
+    updatePlayerTotalElement()
 });
 document.getElementById("hint-button").addEventListener('click', function () {
     hint(playerValue, playerAceCount, dealerCard)
 });
 
+document.getElementById("counter-button").addEventListener('click', function () {
+    //update playerValue and dealer Value
+    //display in a circle to the right of cards
+    //could we turn the values into disabled buttons??
+    playerTotalElement = document.getElementById("player-total");
+    if (playerTotalElement.style.visibility == "hidden") {
+        playerTotalElement.style.visibility = "";
+        document.getElementById("counter-button").innerText = "Hide Card Totals"
+        updatePlayerTotalElement();
+    } else {
+        playerTotalElement.style.visibility = "hidden";
+        document.getElementById("counter-button").innerText = "Show Card Totals"
+    }
+
+});
+
+function updatePlayerTotalElement() {
+    playerTotalElement = document.getElementById("player-total");
+    playerTotalElement.innerHTML = "Player Total: " + playerValue;
+}
 
 
 function shuffle(array) {
@@ -387,6 +408,7 @@ function displayCard(area, firstCard) {
                 stopGame()
             }
         }
+        updatePlayerTotalElement()
     }
     if (firstCard) {
         newCard.id = "firstCard"
@@ -474,6 +496,10 @@ async function initializeGame() {
         document.getElementById("playButtons").classList.remove("hidden");
     }, 800)
 
+    document.getElementById("hit-button").disabled = false;
+    document.getElementById("stand-button").disabled = false;
+    document.getElementById("hint-button").disabled = false;
+    
     if (playerValue === 21 || dealerValue === 21) {
         if (playerValue === 21) {
             playerBlackJack = true
@@ -486,9 +512,7 @@ async function initializeGame() {
         stopGame()
     }
     
-    document.getElementById("hit-button").disabled = false;
-    document.getElementById("stand-button").disabled = false;
-    document.getElementById("hint-button").disabled = false;
+
     return dealerCard;
 }
 function hint(playerValue, playerAceCount, dealerCard) {
