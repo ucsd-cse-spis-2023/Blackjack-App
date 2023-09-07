@@ -462,13 +462,13 @@ async function initializeGame() {
     index = 0
     card_list = shuffle(card_list)
     for (let i = 0; i < 2; i++) {
-        await new Promise(r => setTimeout(r, 200))
+        await new Promise(r => setTimeout(r, 800))
         displayCard("dealerArea", i === 0)
         console.log(i);
         console.log('dealerArea')
     }
     for (let i = 0; i < 2; i++) {
-        await new Promise(r => setTimeout(r, 200))
+        await new Promise(r => setTimeout(r, 800))
         displayCard("playingArea")
     }
 
@@ -482,7 +482,6 @@ async function initializeGame() {
         }
     
         if (dealerValue === 21) {
-            await new Promise(r => setTimeout(r, 200))
             dealerBlackJack = true
         }
         flip()

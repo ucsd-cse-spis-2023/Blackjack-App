@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
         <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='hint.min.css') }}"/>
 </head>
 
 <body>
@@ -18,7 +19,7 @@
         <button id="restart-button" class="no-display">Restart</button>
         
     </div>
-    <button id="hint-button"><img src="/static/bulb-svgrepo-com.svg"></button>
+    <button id="hint-button" class="hint--left hint--rounded" aria-label="Get a hint!" ><img src="/static/bulb-svgrepo-com.svg"></button>
     <div id="playingArea">
         
     </div>
