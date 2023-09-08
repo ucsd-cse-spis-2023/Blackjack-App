@@ -322,6 +322,7 @@ var card_list = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 
 var index = 0
 var dealerBlackJack = false
 var playerBlackJack = false
+var preDealer = true
 
 document.getElementById("hit-button").addEventListener('click', function () {
     displayCard("playingArea")
@@ -332,6 +333,7 @@ document.getElementById("stand-button").addEventListener('click', function () {
 });
 document.getElementById("restart-button").addEventListener('click', function () {
     initializeGame()
+    updateDealerTotalElement(preDealer)
     updatePlayerTotalElement()
 });
 document.getElementById("hint-button").addEventListener('click', function () {
@@ -339,24 +341,38 @@ document.getElementById("hint-button").addEventListener('click', function () {
 });
 
 document.getElementById("counter-button").addEventListener('click', function () {
-    //update playerValue and dealer Value
-    //display in a circle to the right of cards
-    //could we turn the values into disabled buttons??
-    playerTotalElement = document.getElementById("player-total");
+    var playerTotalElement = document.getElementById("player-total");
+    var dealerTotalElement = document.getElementById("dealer-total");
     if (playerTotalElement.style.visibility == "hidden") {
         playerTotalElement.style.visibility = "";
+        dealerTotalElement.style.visibility = "";
         document.getElementById("counter-button").innerText = "Hide Card Totals"
         updatePlayerTotalElement();
+        updateDealerTotalElement(preDealer);
     } else {
         playerTotalElement.style.visibility = "hidden";
+        dealerTotalElement.style.visibility = "hidden";
         document.getElementById("counter-button").innerText = "Show Card Totals"
     }
 
 });
 
 function updatePlayerTotalElement() {
-    playerTotalElement = document.getElementById("player-total");
+    var playerTotalElement = document.getElementById("player-total");
     playerTotalElement.innerHTML = "Player Total: " + playerValue;
+}
+
+function updateDealerTotalElement(preDealer){
+    var dealerTotalElement = document.getElementById("dealer-total");
+    console.log('ooga booga')
+    if (preDealer){
+        dealerTotalElement.innerHTML = "Dealer Total: " + dealerCard;
+    }
+    else{
+        dealerTotalElement.innerHTML = "Dealer Total: " + dealerValue;
+    }
+    
+
 }
 
 
@@ -392,6 +408,7 @@ function displayCard(area, firstCard) {
                 stopGame()
             }
         }
+        updateDealerTotalElement(preDealer)
     }
     if (area == "playingArea") {
         playerValue += cardIdToCard[current_card].cardValue
@@ -413,6 +430,9 @@ function displayCard(area, firstCard) {
     if (firstCard) {
         newCard.id = "firstCard"
         flip()
+    }
+    else if (!firstCard && area == "dealerArea"){
+        updateDealerTotalElement(preDealer)
     }
     return cardIdToCard[current_card].cardValue
 }
@@ -439,6 +459,8 @@ async function stopGame() {
 
     if (playerValue > 21) {
         flip()
+        preDealer = false
+        updateDealerTotalElement(preDealer)
         await new Promise(r => setTimeout(r, 1000))
         alert("YOU BUST!!!!!! YOU LOSE!!")
         return;
@@ -466,10 +488,12 @@ async function stopGame() {
 
 }
 async function initializeGame() {
+    preDealer = true
     document.getElementById("hint-button").disabled = true;
     document.getElementById("restart-button").classList.add("no-display");
     playerValue = 0;
     dealerValue = 0;
+    dealerCard = 0;
     dealerAceCount = 0;
     playerAceCount = 0;
     gameOver = false;
@@ -484,6 +508,7 @@ async function initializeGame() {
     displayCard("dealerArea", true)
     await new Promise(r => setTimeout(r, 800))
     dealerCard = displayCard("dealerArea", false)
+    updateDealerTotalElement(preDealer)
     // console.log(i);
     // console.log('dealerArea')
     // }
@@ -499,7 +524,7 @@ async function initializeGame() {
     document.getElementById("hit-button").disabled = false;
     document.getElementById("stand-button").disabled = false;
     document.getElementById("hint-button").disabled = false;
-    
+
     if (playerValue === 21 || dealerValue === 21) {
         if (playerValue === 21) {
             playerBlackJack = true
@@ -509,6 +534,8 @@ async function initializeGame() {
             dealerBlackJack = true
         }
         flip()
+        preDealer = false
+        updateDealerTotalElement(preDealer)
         stopGame()
     }
     
@@ -819,6 +846,8 @@ async function dealer() {
     document.getElementById("stand-button").disabled = true;
     document.getElementById("hint-button").disabled = true;
     flip()
+    preDealer = false
+    updateDealerTotalElement(preDealer)
     await new Promise(r => setTimeout(r, 1000))
     while (dealerValue < 17) {
         displayCard("dealerArea", false)

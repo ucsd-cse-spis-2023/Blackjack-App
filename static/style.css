@@ -2,14 +2,13 @@ body {
     margin: 0;
     background-color: #0c3f0bc5;
      /*color: #ffa18c;*/
-     font-family: "Century Gothic";
+     font-family: sans-serif;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    
 }
 #dealerArea{
-    height: 42.5vh;
+    height: 37.5vh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -17,13 +16,18 @@ body {
 }
 
 #playingArea{
-    height: 42.5vh;
+    height: 37.5vh;
     display: flex;
     align-items: center;
     justify-content: center;
     overflow-x: auto;
     width: 100vw;
 }
+
+::-webkit-scrollbar-track {
+    background: #f1f120;
+}
+
 #playbuttons{
     height: 10vh;
     display: flex;
@@ -176,8 +180,29 @@ h2{
 }
 
 #player-total {
+    /* margin-top: 0px;
+    margin-bottom: 30px; */
     margin: 0;
     width: 100%;
     text-align: center;
     padding: 0px;
+}
+#dealer-total{
+    /* margin-top: 30px;
+    margin-bottom: 0px; */
+    margin: 0;
+    width: 100%;
+    text-align: center;
+    padding: 0px;
+}
+
+#realBody{
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    justify-content: space-between;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    box-sizing: border-box;
+
 }
